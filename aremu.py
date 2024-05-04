@@ -10,13 +10,23 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
 
+
+
+
+
 # Page setup
 st.set_page_config(page_title='Development of a Multipath Computational Model for Drug Allergies Detection', layout='wide')
-st.title('Development of a Multipath Computational Model for Drug Allergies Detection')
-st.subheader('''By :green[Aremu Ayomide Racheal]:female-student:''')
-st.caption('''__AUPG/13/0276__ ''')
 
-# st.set_option('deprecation.showPyplotGlobalUse', False)
+
+left_co, cent_co,last_co = st.columns(3)
+with cent_co:
+    st.image('drug.jpg', width=350)
+
+st.markdown("<h1 style='text-align: center; color: grey;'>Development of a Multipath Computational Model for Drug Allergies Detection</h1>",unsafe_allow_html=True)
+st.subheader('''By :green[Aremu Ayomide Racheal]:female-student:''')
+st.write('''**__AUPG/13/0276__** :flag-ng:''')
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 def build_model(df):
     df['ALLERGY_HISTORY'] = LabelEncoder().fit_transform(df['ALLERGY_HISTORY'])
@@ -37,11 +47,13 @@ def build_model(df):
 
     st.write('Y Variable')
     st.info(y.name)
+    fig, ax = plt.subplots(figsize=(4, 2))
     sns.countplot(df,x='ALLERGY_HISTORY',hue='GENDER')
-    st.pyplot()
+    st.pyplot(fig.show())
 
     rf =RandomForestClassifier(n_estimators=parameter_estimator,random_state=101,max_features=parameter_features)
     rf.fit(X_train,y_train)
+    st.divider()
 
     st.subheader('Model Performance')
     st.markdown('**Training Set**')
@@ -50,12 +62,11 @@ def build_model(df):
     cm = confusion_matrix(y_test,pred)
     st.write('ConfuSion Matrix')
     st.code(cm)
-    fig,ax = plt.subplots(figsize=(7,3))
-    # fig.set_figwidth(4)
-    # fig.set_figheight(1)
+    sq,ax = plt.subplots(figsize=(7,3))
+
     CCM=ConfusionMatrixDisplay.from_predictions(y_test,pred)
 
-    st.pyplot(fig.show())
+    st.pyplot(sq.show())
 
     st.info('Classification Report')
     st.code(classification_report(y_test,pred))
@@ -67,6 +78,7 @@ def build_model(df):
     feat = pd.DataFrame(index=X.columns,data=rf.feature_importances_,columns=['Feature Importance'])
     imp_feats = feat[feat['Feature Importance']>=0.03]
     st.dataframe(imp_feats)
+    st.divider()
 
     st.markdown('''Adaboost Algorithm''')
     adb = AdaBoostClassifier(n_estimators=parameter_Adaestimator,learning_rate=parameter_learning,algorithm='SAMME')
@@ -88,6 +100,7 @@ def build_model(df):
     adbimp_feats = adbfeat[adbfeat['Feature Importance'] >= 0.03]
     st.dataframe(adbimp_feats)
 
+    st.divider()
     st.subheader('''CategoricalNB Algorithm''')
     cnb = CategoricalNB()
     cnb.fit(X_train, y_train)
@@ -96,6 +109,7 @@ def build_model(df):
     st.info('CategoricalNB Classification Report')
     st.code(classification_report(y_test, predNB))
 
+    st.divider()
     st.subheader("""Combining the 3 Models using VotingClassifier""")
     ang = [('RandomForest',rf),('AdaBoost',adb),('CategoricalNB',cnb)]
     parfait = VotingClassifier(estimators=ang,voting=para_vote)
@@ -108,6 +122,7 @@ def build_model(df):
     st.write('Mean Absolute Error')
     st.info(mean_absolute_error(y_test,sumprediction))
 
+
     st.subheader('Saving the model')
     st.code(joblib.dump(parfait,'AremuRachael.pkl'))
 
@@ -115,24 +130,31 @@ def build_model(df):
 
 
 st.write('''
-In this Implementation RandomForestClassifier, AdaBoostClassifier and Multinomial Naive Bayes algorithms are combined in this app to build
+In this Implementation [RandomForestClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html),
+ [AdaBoostClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html#sklearn.ensemble.AdaBoostClassifier) 
+ and [Categorical Naive Bayes](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.CategoricalNB.html) algorithms are combined in this app to build
 a multipath drug allergy detection model 
 ''')
+st.write('	:point_left: Try and adjust the hyperparameters')
 
 with st.sidebar.header('Upload your Excel data'):
     uploaded_file = st.sidebar.file_uploader('Upload your input Excel file', type=['xlsx'])
+
 
 with st.sidebar.header('RandomForest Parameters'):
     parameter_estimator = st.sidebar.slider('Number of estimators (n_estimators)',10,900,50,50)
     parameter_features = st.sidebar.select_slider('Max Features (max_features)',options=[None,'sqrt','log2'])
 
 
+
 with st.sidebar.header('AdaBoost Parameters'):
     parameter_Adaestimator = st.sidebar.slider('Number of estimators (n_estimators)',50,900,50,50)
     parameter_learning = st.sidebar.slider('Learning_Rate (learning_rate)',1.0,30.0,5.0,5.0)
 
+
 with st.sidebar.header('VotingClassifier Parameters'):
     para_vote = st.sidebar.select_slider('Voting (voting)',options=['hard','soft'])
+
 
 
 
