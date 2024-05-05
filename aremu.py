@@ -111,7 +111,7 @@ def build_model(df):
 
     st.divider()
     url = 'https://www.linkedin.com/pulse/enhancing-predictive-accuracy-voting-classifiers-guide-manoj-s-negi#:~:text=A%20Voting%20Classifier%20is%20an,both%20classification%20and%20regression%20problems'
-    st.markdown("<h3>Combining the 3 Models using [VotingClassifier](%s)</h3>" %url,unsafe_allow_html=True)
+    st.markdown(f"<h3>Combining the 3 Models using <a href= {url}>VotingClassifier</a></h3>" ,unsafe_allow_html=True)
     ang = [('RandomForest',rf),('AdaBoost',adb),('CategoricalNB',cnb)]
     parfait = VotingClassifier(estimators=ang,voting=para_vote)
     parfait.fit(X_train, y_train)
