@@ -110,7 +110,7 @@ def build_model(df):
     st.code(classification_report(y_test, predNB))
 
     st.divider()
-    st.subheader("""Combining the 3 Models using VotingClassifier""")
+    st.subheader("""Combining the 3 Models using [VotingClassifier](https://www.linkedin.com/pulse/enhancing-predictive-accuracy-voting-classifiers-guide-manoj-s-negi#:~:text=A%20Voting%20Classifier%20is%20an,both%20classification%20and%20regression%20problems.)""")
     ang = [('RandomForest',rf),('AdaBoost',adb),('CategoricalNB',cnb)]
     parfait = VotingClassifier(estimators=ang,voting=para_vote)
     parfait.fit(X_train, y_train)
