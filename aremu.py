@@ -70,6 +70,9 @@ def build_model(df):
 
     st.info('Classification Report')
     st.code(classification_report(y_test,pred))
+    st.write('Mean Absolute Error')
+    st.info(mean_absolute_error(y_test,pred))
+    
 
     st.info('Feature Importance Report')
     # st.write(rf.feature_importances_)
@@ -94,6 +97,8 @@ def build_model(df):
 
     st.info('Adaboost Classification Report')
     st.code(classification_report(y_test, adbpred))
+    st.write('Mean Absolute Error')
+    st.info(mean_absolute_error(y_test,adbpred))
 
     st.write('Adaboost Features above 0.03')
     adbfeat = pd.DataFrame(index=X.columns, data=adb.feature_importances_, columns=['Feature Importance'])
@@ -122,6 +127,14 @@ def build_model(df):
     st.code(confusion_matrix(y_test,sumprediction))
     st.write('Mean Absolute Error')
     st.info(mean_absolute_error(y_test,sumprediction))
+
+    st.subheader('Abosolute Mean Error Chart')
+    errdata = {
+        'Model':['RandomForest', 'AdaBoost', 'CategoricalNB','CombinedModel'],
+        'Mean Absolute Error':[mean_absolute_error(y_test,pred),mean_absolute_error(y_test,adbpred),mean_absolute_error(y_test,predNB),mean_absolute_error(y_test,sumprediction)]
+    }
+    errdf= pd.DataFrame(errdata)
+    st.dataframe(errdf)
 
 
     st.subheader('Saving the model')
