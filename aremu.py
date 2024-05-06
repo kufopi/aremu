@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split,GridSearchCV
 from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,VotingClassifier
-from sklearn.metrics import ConfusionMatrixDisplay,classification_report,mean_absolute_error,confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay,classification_report,mean_absolute_error,confusion_matrix,mean_squared_error
 from sklearn.naive_bayes import MultinomialNB,CategoricalNB
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
@@ -131,12 +131,13 @@ def build_model(df):
     st.subheader('Abosolute Mean Error Chart')
     errdata = {
         'Model':['RandomForest', 'AdaBoost', 'CategoricalNB','CombinedModel'],
-        'Mean Absolute Error':[mean_absolute_error(y_test,pred),mean_absolute_error(y_test,adbpred),mean_absolute_error(y_test,predNB),mean_absolute_error(y_test,sumprediction)]
+        'Mean Absolute Error':[mean_absolute_error(y_test,pred),mean_absolute_error(y_test,adbpred),mean_absolute_error(y_test,predNB),mean_absolute_error(y_test,sumprediction)],
+        'Root Mean Sq Error':[mean_squared_error(y_test,pred)**0.5,mean_squared_error(y_test,adbpred)**0.5,mean_squared_error(y_test,predNB)**0.5,mean_squared_error(y_test,sumprediction)**0.5]
     }
     errdf= pd.DataFrame(errdata)
     st.dataframe(errdf)
     st.info('Error Chart')
-    st.line_chart(errdf, x='Model', y='Mean Absolute Error')
+    st.line_chart(errdf, x='Model', y=['Mean Absolute Error','Root Mean Sq Error'])
 
 
     st.subheader('Saving the model')
