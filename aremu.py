@@ -135,6 +135,8 @@ def build_model(df):
     }
     errdf= pd.DataFrame(errdata)
     st.dataframe(errdf)
+    st.info('Error Chart')
+    st.line_chart(errdf)
 
 
     st.subheader('Saving the model')
