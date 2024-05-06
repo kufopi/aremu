@@ -136,7 +136,7 @@ def build_model(df):
     errdf= pd.DataFrame(errdata)
     st.dataframe(errdf)
     st.info('Error Chart')
-    st.bar_chart(errdf, x='Model', y='Mean Absolute Error')
+    st.line_chart(errdf, x='Model', y='Mean Absolute Error')
 
 
     st.subheader('Saving the model')
