@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import joblib
+from sklearn import tree
 
 
 
@@ -81,6 +82,15 @@ def build_model(df):
     feat = pd.DataFrame(index=X.columns,data=rf.feature_importances_,columns=['Feature Importance'])
     imp_feats = feat[feat['Feature Importance']>=0.03]
     st.dataframe(imp_feats)
+    st.info('Decision Tree Visualization')
+    st.write('One of the trees')
+    st.code(''' tree.plot_tree(rf.estimators_[0])''')
+    fiw,ax = plt.subplots(figsize=(10,8))
+    tree.plot_tree(rf.estimators_[0],filled=True)
+    st.pyplot(fiw.show())
+
+
+    
     st.divider()
 
     st.markdown('''Adaboost Algorithm''')
