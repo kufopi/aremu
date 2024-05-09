@@ -140,7 +140,7 @@ False negatives (FN): occur when the model mispredicts a negative data point.
     st.dataframe(adbimp_feats)
 
     st.divider()
-    st.subheader('''5. CategoricalNB Algorithm''')
+    st.subheader('''5. CategoricalNaive Bayes Algorithm''')
     cnb = CategoricalNB()
     cnb.fit(X_train, y_train)
     predNB = cnb.predict(X_test)
@@ -152,6 +152,9 @@ False negatives (FN): occur when the model mispredicts a negative data point.
     predNB = cnb.predict(X_test)
     ''')
     st.code(classification_report(y_test, predNB))
+    prednbcm = confusion_matrix(y_test, predNB)
+    st.write('5.2 CategoricalNB Confusion Matrix')
+    st.code(prednbcm)
 
     st.divider()
     url = 'https://www.linkedin.com/pulse/enhancing-predictive-accuracy-voting-classifiers-guide-manoj-s-negi'
