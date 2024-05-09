@@ -42,6 +42,7 @@ def build_model(df):
     y = df['ALLERGY_HISTORY']
     ''')
     st.subheader('2. Splitting the dataset into Training and Testing using ratio 7:3')
+    st.image('train.png')
     st.code('''
     X_train, X_test, y_train,y_test = train_test_split(X,y,test_size=0.3,random_state=101)
     ''')
