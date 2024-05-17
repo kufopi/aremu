@@ -211,7 +211,7 @@ st.markdown('''
 Python Libraries Used:
 * **[Numpy](https://numpy.org/)**,
 * **[Pandas](https://pandas.pydata.org/)**,
-* **[Sklearn](https://scikit-learn.org/)**,
+* **[Scikit-learn](https://scikit-learn.org/)**,
 * **Joblib**,
 * **[Matplotlib](https://matplotlib.org/)**,
 * **[Seaborn](https://seaborn.pydata.org/)**,
