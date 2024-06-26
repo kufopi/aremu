@@ -131,6 +131,8 @@ False negatives (FN): occur when the model mispredicts a negative data point.
     adbcm = confusion_matrix(y_test, adbpred)
     st.write('4.1 Adaboost Confusion Matrix')
     st.code(adbcm)
+    v=pd.Dataframe(adbcm,index=['ALLERGY_HISTORY_Y','ALLERGY_HISTORY_Y'],columns=['Predicted_Yes','Predicted_No'])
+    st.dataframe(v)
 
     st.info('4.2 Adaboost Classification Report')
     st.code(classification_report(y_test, adbpred))
