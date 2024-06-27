@@ -61,7 +61,7 @@ def build_model(df):
     st.info(y.name)
     st.success('Frequency count for the target variable ie Y variable')
     fig, ax = plt.subplots(figsize=(4, 2))
-    sns.countplot(df,x='ALLERGY_HISTORY',hue='GENDER')
+    sns.countplot(df,x='Label',hue='GENDER')
     st.pyplot(fig.show())
 
     rf =RandomForestClassifier(n_estimators=parameter_estimator,random_state=101,max_features=parameter_features)
