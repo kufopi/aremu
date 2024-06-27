@@ -31,15 +31,15 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 
 
 def build_model(df):
-    df['ALLERGY_HISTORY'] = LabelEncoder().fit_transform(df['ALLERGY_HISTORY'])
+    df['Label'] = LabelEncoder().fit_transform(df['Label'])
     df['AGE']= pd.to_numeric(df['AGE'],errors='coerce').astype(int)
-    X = pd.get_dummies(df.drop('ALLERGY_HISTORY',axis =1),drop_first=True)
-    y = df['ALLERGY_HISTORY']
+    X = pd.get_dummies(df.drop('Label',axis =1),drop_first=True)
+    y = df['Label']
     st.info('1.2. Encoding the categorical variable into dummy variable')
     st.code('''
-    X = pd.get_dummies(df.drop('ALLERGY_HISTORY',axis =1),drop_first=True)
-    df['ALLERGY_HISTORY'] = LabelEncoder().fit_transform(df['ALLERGY_HISTORY'])
-    y = df['ALLERGY_HISTORY']
+    X = pd.get_dummies(df.drop('Label',axis =1),drop_first=True)
+    df['Label'] = LabelEncoder().fit_transform(df['Label'])
+    y = df['Label']
     ''')
     st.subheader('2. Splitting the dataset into Training and Testing using ratio 7:3')
     st.image('train.png')
@@ -131,7 +131,7 @@ False negatives (FN): occur when the model mispredicts a negative data point.
     adbcm = confusion_matrix(y_test, adbpred)
     st.write('4.1 Adaboost Confusion Matrix')
     st.code(adbcm)
-    v=pd.DataFrame(adbcm,index=['ALLERGY_HISTORY_N','ALLERGY_HISTORY_Y'],columns=['Predicted_No','Predicted_Yes'])
+    v=pd.DataFrame(adbcm,index=['Label_N','Label_Y'],columns=['Predicted_No','Predicted_Yes'])
     st.dataframe(v)
 
     st.info('4.2 Adaboost Classification Report')
